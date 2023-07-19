@@ -79,6 +79,7 @@ const Open = ({ children, opens: opensWindowName }) => {
   //cloneElement -> Create a new React element using another element as a starting point.
   //First parameter -> the element we are cloning
   //Second parameter -> we can pass an object with props
+
   return cloneElement(children, { onClick: () => open(opensWindowName) });
 };
 
