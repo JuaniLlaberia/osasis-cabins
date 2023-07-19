@@ -8,11 +8,11 @@ import Textarea from '../../ui/Textarea';
 import { useCreateCabin } from './useCreateCabin';
 import { useEditCabin } from './useEditCabin';
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { id: editId, ...editValue } = cabinToEdit;
   const isEditSession = Boolean(editId);
 
-  const { register, handleSubmit, reset, getValues, formState } = useForm({
+  const { register, handleSubmit, reset, formState } = useForm({
     defaultValues: isEditSession ? editValue : {},
   });
   const { errors } = formState;
@@ -25,13 +25,17 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
   const onSubmit = data => {
     const image = typeof data.image === 'string' ? data.image : data.image[0];
+    //In case we have an image and we are updating it,
+    const imgToRemove =
+      typeof image !== 'string' ? editValue?.image?.split('/').at(-1) : null;
 
     if (isEditSession)
       editCabin(
-        { newCabinData: { ...data, image }, id: editId },
+        { newCabinData: { ...data, image }, id: editId, oldImage: imgToRemove },
         {
           onSuccess: data => {
-            reset();
+            // reset();
+            onCloseModal?.();
           },
         }
       );
@@ -41,6 +45,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         {
           onSuccess: data => {
             reset();
+            onCloseModal?.();
           },
         }
       );
@@ -51,7 +56,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onCloseModal ? 'modal' : 'regular'}
+    >
       <FormRow label='Cabin Name' error={errors?.name?.message}>
         <Input
           type='text'
@@ -59,6 +67,14 @@ function CreateCabinForm({ cabinToEdit = {} }) {
           disabled={isWorking}
           {...register('name', {
             required: 'This field is required',
+            minLength: {
+              value: 3,
+              message: 'Cabin names are 3 digit based',
+            },
+            maxLength: {
+              value: 3,
+              message: 'Cabin names are 3 digit based',
+            },
           })}
         />
       </FormRow>
@@ -132,7 +148,11 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation='secondary' type='reset'>
+        <Button
+          variation='secondary'
+          type='reset'
+          onClick={() => onCloseModal?.()}
+        >
           Cancel
         </Button>
         <Button disabled={isWorking}>
