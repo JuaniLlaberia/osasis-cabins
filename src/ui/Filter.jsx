@@ -42,6 +42,7 @@ export const Filter = ({ filterField, options }) => {
 
   const handleClick = value => {
     searchParams.set(filterField, value);
+    searchParams.set('page', 1); //We reset the page because if not when we change the filter and  we where in a page that the filtered bookings doesnt exist it gives an error
     setSearchParams(searchParams);
   };
 
