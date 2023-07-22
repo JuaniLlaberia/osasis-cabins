@@ -1,14 +1,19 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import BookingDataBox from "./BookingDataBox";
-import Row from "../../ui/Row";
-import Heading from "../../ui/Heading";
-import Tag from "../../ui/Tag";
-import ButtonGroup from "../../ui/ButtonGroup";
-import Button from "../../ui/Button";
-import ButtonText from "../../ui/ButtonText";
+import BookingDataBox from './BookingDataBox';
+import Row from '../../ui/Row';
+import Heading from '../../ui/Heading';
+import Tag from '../../ui/Tag';
+import ButtonGroup from '../../ui/ButtonGroup';
+import Button from '../../ui/Button';
+import ButtonText from '../../ui/ButtonText';
+import Spinner from '../../ui/Spinner';
 
-import { useMoveBack } from "../../hooks/useMoveBack";
+import { useBooking } from './useBooking';
+import { useMoveBack } from '../../hooks/useMoveBack';
+import { useNavigate } from 'react-router-dom';
+import { useCheckout } from '../check-in-out/useCheckout';
+import { HiArrowUpOnSquare } from 'react-icons/hi2';
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -17,23 +22,28 @@ const HeadingGroup = styled.div`
 `;
 
 function BookingDetail() {
-  const booking = {};
-  const status = "checked-in";
+  const { booking, isLoading } = useBooking();
+  const { checkout, isCheckingOut } = useCheckout();
+  const navigate = useNavigate();
 
   const moveBack = useMoveBack();
 
+  if (isLoading) return <Spinner />;
+
+  const { status, id } = booking;
+
   const statusToTagName = {
-    unconfirmed: "blue",
-    "checked-in": "green",
-    "checked-out": "silver",
+    unconfirmed: 'blue',
+    'checked-in': 'green',
+    'checked-out': 'silver',
   };
 
   return (
     <>
-      <Row type="horizontal">
+      <Row type='horizontal'>
         <HeadingGroup>
-          <Heading as="h1">Booking #X</Heading>
-          <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
+          <Heading as='h1'>Booking #{id}</Heading>
+          <Tag type={statusToTagName[status]}>{status.replace('-', ' ')}</Tag>
         </HeadingGroup>
         <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
       </Row>
@@ -41,7 +51,19 @@ function BookingDetail() {
       <BookingDataBox booking={booking} />
 
       <ButtonGroup>
-        <Button variation="secondary" onClick={moveBack}>
+        {status === 'unconfirmed' && (
+          <Button onClick={() => navigate(`/checkin/${id}`)}>Check In</Button>
+        )}
+        {status === 'checked-in' && (
+          <Button
+            icon={<HiArrowUpOnSquare />}
+            onClick={() => checkout(id)}
+            disabled={isCheckingOut}
+          >
+            Check Out
+          </Button>
+        )}
+        <Button variation='secondary' onClick={moveBack}>
           Back
         </Button>
       </ButtonGroup>
