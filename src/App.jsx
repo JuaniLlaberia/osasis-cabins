@@ -16,6 +16,8 @@ import { Booking } from './pages/Booking';
 import { Checkin } from './pages/Checkin';
 import { ProtectedRoute } from './ui/ProtectedRoute';
 
+//GITHUB ERROR TEST
+
 //Sets up the cache behind the scenes
 const queryClient = new QueryClient({
   defaultOptions: {
