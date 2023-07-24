@@ -54,7 +54,7 @@ export const updateCurrentUser = async ({
   avatar,
   crrAvatar: oldAvatar,
 }) => {
-  console.log(avatar, oldAvatar);
+  // console.log(avatar, oldAvatar);
   //1. we update the password or fullName
   let updateData;
 

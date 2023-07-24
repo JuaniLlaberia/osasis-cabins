@@ -39,7 +39,6 @@ export const TodayItem = ({ activity }) => {
       {status === 'unconfirmed' && (
         <Button
           size='small'
-          variation='primary'
           as={Link} //This transforms the element into some element
           to={`/checkin/${id}`}
         >

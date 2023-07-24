@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import {
+  HiOutlineBookOpen,
   HiOutlineCalendarDays,
   HiOutlineCog6Tooth,
   HiOutlineHome,
@@ -65,8 +66,14 @@ const MainNav = () => {
         </li>
         <li>
           <StyledNavLink to='/bookings'>
-            <HiOutlineCalendarDays />
+            <HiOutlineBookOpen />
             <span>Bookings</span>
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to='/availability'>
+            <HiOutlineCalendarDays />
+            <span>Availability</span>
           </StyledNavLink>
         </li>
         <li>
