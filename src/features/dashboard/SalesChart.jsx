@@ -11,13 +11,7 @@ import {
   YAxis,
 } from 'recharts';
 import { useDarkMode } from '../../context/DarkModeConext';
-import {
-  eachDayOfInterval,
-  format,
-  isDate,
-  isSameDay,
-  subDays,
-} from 'date-fns';
+import { eachDayOfInterval, format, isSameDay, subDays } from 'date-fns';
 
 const StyledSalesChart = styled(DashboardBox)`
   grid-column: 1 / -1;

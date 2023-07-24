@@ -21,7 +21,7 @@ export const ProtectedRoute = ({ children }) => {
   //2. If there is no auth user, redirect to /login
   useEffect(() => {
     if (!isAuthenticated && !isLoading) navigate('/login');
-  }, [isAuthenticated, isLoading]);
+  }, [isAuthenticated, isLoading, navigate]);
 
   //3. While loading, show spinner
   if (isLoading)
