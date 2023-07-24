@@ -87,6 +87,7 @@ const Toggle = ({ id }) => {
   const { openId, close, open, setPosition } = useContext(MenusContext);
 
   const handleClick = e => {
+    e.stopPropagation();
     //We find the closes button
     //And with the lastt method we obtain the coordenates from the button we clicked
     const rect = e.target.closest('button').getBoundingClientRect();
@@ -107,7 +108,7 @@ const Toggle = ({ id }) => {
 };
 const List = ({ id, children }) => {
   const { openId, position, close } = useContext(MenusContext);
-  const ref = useOutsideClick(close, true);
+  const ref = useOutsideClick(close, false);
 
   if (openId !== id) return null;
   //Every time that a component will be flooting (for example a modal) its good practice to use the Portal

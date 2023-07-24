@@ -11,8 +11,6 @@ function BookingTable() {
 
   if (isLoading) return <Spinner />;
 
-  console.log(bookings.length);
-
   if (!bookings.length) return <Empty resource='bookings' />;
 
   return (
