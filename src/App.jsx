@@ -15,8 +15,7 @@ import { Toaster } from 'react-hot-toast';
 import { Booking } from './pages/Booking';
 import { Checkin } from './pages/Checkin';
 import { ProtectedRoute } from './ui/ProtectedRoute';
-
-//GITHUB ERROR TEST
+import { NewBooking } from './pages/NewBooking';
 
 //Sets up the cache behind the scenes
 const queryClient = new QueryClient({
@@ -47,6 +46,7 @@ const App = () => {
             <Route path='bookings/:bookingId' element={<Booking />} />
             <Route path='checkin/:bookingId' element={<Checkin />} />
             <Route path='cabins' element={<Cabins />} />
+            <Route path='availability' element={<NewBooking />} />
             <Route path='users' element={<Users />} />
             <Route path='settings' element={<Settings />} />
             <Route path='account' element={<Account />} />

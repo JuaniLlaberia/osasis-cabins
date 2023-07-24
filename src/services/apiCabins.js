@@ -89,3 +89,32 @@ export async function createEditCabin(newCabin, id, oldImage) {
 
   return data;
 }
+
+export const getAvailableCabinsBetweenDates = async (from, to) => {
+  if (!from || !to) return [];
+  //1. We need to retrieve all cabins
+  const { data: cabins, error: cabinsError } = await supabase
+    .from('cabins')
+    .select('*');
+
+  if (cabinsError) throw new Error(cabinsError);
+
+  //2. We nned to retrieve all bookings
+  const { data: bookings, error: bookingsError } = await supabase
+    .from('bookings')
+    .select('*')
+    .gte('startDate', from)
+    .lte('endDate', to);
+
+  if (bookingsError) throw new Error(bookingsError);
+
+  //3. Filter and get available cabins between those two dates
+  const bookedCabinsIds = new Set(bookings.map(booking => booking.cabinId));
+
+  const availableCabins = cabins.filter(
+    cabin => !bookedCabinsIds.has(cabin.id)
+  );
+
+  //4. return data
+  return availableCabins;
+};
