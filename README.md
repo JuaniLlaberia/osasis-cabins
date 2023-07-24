@@ -1,5 +1,5 @@
 ## The Wild Oasis Project
-I build with the help of the tutorials and classes of the course, the wild oasis project. Its an application for internal use in a cabins resort in the mountains. Only employers will be able to use, as they will be able to manage bookings, check in/out guests, edit and create the cabins, update general data of the resort and visualize a dashboard that contains stats and shortcuts for common actions.
+I build with the help of the tutorials and classes of the course, the wild oasis project. Its an application for internal use in a cabins resort in the mountains. Only employees will be able to use, as they will be able to manage bookings, check in/out guests, edit and create the cabins, update general data of the resort and visualize a dashboard that contains stats and shortcuts for common actions.
 We also included Light and Dark mode.
 
 The backend was implemented in Supabase and to retrieve or perform mutations on the database we use React Query.
