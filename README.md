@@ -4,6 +4,8 @@ We also included Light and Dark mode.
 
 The backend was implemented in Supabase and to retrieve or perform mutations on the database we use React Query.
 
+In addition, I created after the course two related features, the first one is the page to check which cabins are available on certain date (we pass that date in a form) and with that, we are able to create a new booking. This functionality did not exist in the original course project.
+
 ## Technologies used:
 ![React JS](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
@@ -17,6 +19,12 @@ The backend was implemented in Supabase and to retrieve or perform mutations on 
 [The Wild Oasis](https://oasis-cabins.netlify.app/dashboard)
 
 ## Project images
+Cabins availability and create new booking feature (not part of the course)
+![New bookings Page](https://github.com/JuaniLlaberia/osasis-cabins/assets/99926853/c126654d-00db-4365-bcf8-b4ecc66ec377)
+
+![New bookings Moda](https://liwvkflxgbseaamrvgks.supabase.co/storage/v1/object/public/extra-img/screen9.png?t=2023-07-25T18%3A43%3A50.901Z)
+
+
 Dashboard in Dark Mode
 ![Dashboard](https://liwvkflxgbseaamrvgks.supabase.co/storage/v1/object/public/extra-img/screen1.png?t=2023-07-24T13%3A46%3A23.202Z)
 Dashboard in Light Mode
