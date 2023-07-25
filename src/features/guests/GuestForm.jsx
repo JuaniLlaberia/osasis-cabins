@@ -12,6 +12,7 @@ import { formatCurrency } from '../../utils/helpers';
 import { useSearchParams } from 'react-router-dom';
 import { useSettings } from '../settings/useSettings';
 import Spinner from '../../ui/Spinner';
+import { useCreateBooking } from '../bookings/useCreateBooking';
 
 const Box = styled.div`
   /* Box */
@@ -23,6 +24,7 @@ const Box = styled.div`
 `;
 
 function NewGuestBooking({ onCloseModal, numNights, nightPrice, cabinId }) {
+  const { createBooking, isCreating } = useCreateBooking();
   const [addBreakfast, setAddBreakfast] = useState(false);
   //Creating reack hook form
   const { register, formState, handleSubmit } = useForm();
@@ -46,25 +48,23 @@ function NewGuestBooking({ onCloseModal, numNights, nightPrice, cabinId }) {
   const totalPrice = cabinPrice + breakfastPrice;
 
   const onSubmit = ({ fullName, email, nationality, nationalId }) => {
-    console.log(
-      //Create Guest
-      fullName,
-      email,
-      nationalId,
-      nationality,
-      //
-      from,
-      to,
-      numNights,
-      numGuests,
-      cabinPrice,
-      breakfastPrice, //extraPrice
-      totalPrice,
-      addBreakfast, //hasBreakfast (true/false)
-      cabinId
-      //Guest Id
-      //idPaid False
-    );
+    createBooking({
+      newGuest: { fullName, email, nationalID: nationalId, nationality },
+      newBooking: {
+        startDate: from.replace('T', ' ').replace('Z', ''),
+        endDate: to.replace('T', ' ').replace('Z', ''),
+        numNights,
+        numGuests,
+        cabinPrice,
+        extrasPrice: breakfastPrice,
+        totalPrice,
+        hasBreakfast: addBreakfast,
+        isPaid: false,
+        cabinId,
+        guestId: '',
+        status: 'unconfirmed',
+      },
+    });
   };
 
   return (
@@ -72,6 +72,7 @@ function NewGuestBooking({ onCloseModal, numNights, nightPrice, cabinId }) {
       <Heading as='h2'>Guest information</Heading>
       <FormRow label='Full name' error={errors?.fullName?.message}>
         <Input
+          disabled={isCreating}
           type='text'
           id='fullName'
           {...register('fullName', {
@@ -82,6 +83,7 @@ function NewGuestBooking({ onCloseModal, numNights, nightPrice, cabinId }) {
 
       <FormRow label='Email address' error={errors?.email?.message}>
         <Input
+          disabled={isCreating}
           type='email'
           id='email'
           {...register('email', {
@@ -94,8 +96,9 @@ function NewGuestBooking({ onCloseModal, numNights, nightPrice, cabinId }) {
         />
       </FormRow>
 
-      <FormRow label='Nationality' error={errors?.nationality?.message}>
+      <FormRow label='Your country' error={errors?.nationality?.message}>
         <Input
+          disabled={isCreating}
           type='nationality'
           id='nationality'
           {...register('nationality', {
@@ -106,6 +109,7 @@ function NewGuestBooking({ onCloseModal, numNights, nightPrice, cabinId }) {
 
       <FormRow label='National ID' error={errors?.nationalId?.message}>
         <Input
+          disabled={isCreating}
           type='nationalId'
           id='nationalId'
           {...register('nationalId', {
@@ -127,10 +131,15 @@ function NewGuestBooking({ onCloseModal, numNights, nightPrice, cabinId }) {
         </Checkbox>
       </Box>
       <FormRow>
-        <Button variation='secondary' type='reset' onClick={onCloseModal}>
+        <Button
+          variation='secondary'
+          type='reset'
+          onClick={onCloseModal}
+          disabled={isCreating}
+        >
           Cancel
         </Button>
-        <Button>Add booking</Button>
+        <Button>{isCreating ? <SpinnerMini /> : 'Add booking'}</Button>
       </FormRow>
     </Form>
   );

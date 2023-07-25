@@ -132,3 +132,44 @@ export async function deleteBooking(id) {
   }
   return data;
 }
+
+//With this function we create a new guest and a new booking
+export const createBooking = async ({ newGuest, newBooking }) => {
+  //Guest Flag
+  const res = await fetch(
+    `https://restcountries.com/v3.1/name/${newGuest.nationality}`
+  );
+  const flag = await res.json();
+
+  newGuest.countryFlag = `https://flagcdn.com/${flag[0].cca2.toLowerCase()}.svg`;
+
+  //Creating New Guest
+  const { data, error } = await supabase
+    .from('guests')
+    .insert([newGuest])
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error('Guest could not be created');
+  }
+
+  //Adding guest ID to booking object
+  newBooking.guestId = data?.id;
+
+  //Creating new booking
+  console.log(newBooking);
+  const { data: bookingData, error: bookingError } = await supabase
+    .from('bookings')
+    .insert([newBooking])
+    .select()
+    .single();
+
+  if (bookingError) {
+    console.error(bookingError);
+    throw new Error('booking could not be created');
+  }
+
+  return bookingData;
+};
