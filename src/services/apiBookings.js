@@ -136,12 +136,16 @@ export async function deleteBooking(id) {
 //With this function we create a new guest and a new booking
 export const createBooking = async ({ newGuest, newBooking }) => {
   //Guest Flag
-  const res = await fetch(
-    `https://restcountries.com/v3.1/name/${newGuest.nationality}`
-  );
-  const flag = await res.json();
+  try {
+    const res = await fetch(
+      `https://restcountries.com/v3.1/name/${newGuest.nationality}`
+    );
+    const flag = await res.json();
 
-  newGuest.countryFlag = `https://flagcdn.com/${flag[0].cca2.toLowerCase()}.svg`;
+    newGuest.countryFlag = `https://flagcdn.com/${flag[0].cca2.toLowerCase()}.svg`;
+  } catch (err) {
+    console.log(err);
+  }
 
   //Creating New Guest
   const { data, error } = await supabase
