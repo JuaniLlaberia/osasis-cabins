@@ -69,6 +69,7 @@ function NewGuestBooking({ onCloseModal, numNights, nightPrice, cabinId }) {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} type='modal'>
+      <Heading as='h4'>New Booking</Heading>
       <Heading as='h2'>Guest information</Heading>
       <FormRow label='Full name' error={errors?.fullName?.message}>
         <Input
