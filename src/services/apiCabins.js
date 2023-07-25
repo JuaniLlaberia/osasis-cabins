@@ -90,7 +90,7 @@ export async function createEditCabin(newCabin, id, oldImage) {
   return data;
 }
 
-export const getAvailableCabinsBetweenDates = async (from, to) => {
+export const getAvailableCabinsBetweenDates = async (from, to, guests) => {
   if (!from || !to) return [];
   //1. We need to retrieve all cabins
   const { data: cabins, error: cabinsError } = await supabase
@@ -112,7 +112,10 @@ export const getAvailableCabinsBetweenDates = async (from, to) => {
   const bookedCabinsIds = new Set(bookings.map(booking => booking.cabinId));
 
   const availableCabins = cabins.filter(
-    cabin => !bookedCabinsIds.has(cabin.id)
+    cabin =>
+      !bookedCabinsIds.has(cabin.id) &&
+      cabin.maxCapacity >= guests &&
+      cabin.maxCapacity <= guests + 2
   );
 
   //4. return data

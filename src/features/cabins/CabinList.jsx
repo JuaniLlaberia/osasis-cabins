@@ -17,15 +17,17 @@ export const CabinList = ({ isLoading, availableCabins }) => {
   if (isLoading) return <Spinner />;
 
   return (
-    <StyledCabinList>
+    <>
       {!availableCabins?.length ? null : (
         <Heading as='h2'>Available Cabins</Heading>
       )}
-      {!availableCabins?.length
-        ? null
-        : availableCabins.map(cabin => (
-            <CabinItem key={cabin.id} cabin={cabin} />
-          ))}
-    </StyledCabinList>
+      <StyledCabinList>
+        {!availableCabins?.length
+          ? null
+          : availableCabins.map(cabin => (
+              <CabinItem key={cabin.id} cabin={cabin} />
+            ))}
+      </StyledCabinList>
+    </>
   );
 };

@@ -7,14 +7,15 @@ export const useAvailableCabinsToBook = () => {
 
   const from = searchParams.get('from');
   const to = searchParams.get('to');
+  const guests = Number(searchParams.get('guestsNum'));
 
   const {
     data: availableCabins,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ['availableCabins', from, to],
-    queryFn: () => getAvailableCabinsBetweenDates(from, to),
+    queryKey: ['availableCabins', from, to, guests],
+    queryFn: () => getAvailableCabinsBetweenDates(from, to, guests),
     retry: false,
   });
 

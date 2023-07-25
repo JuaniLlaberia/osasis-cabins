@@ -2,9 +2,6 @@ import { styled } from 'styled-components';
 import Heading from '../../ui/Heading';
 import Row from '../../ui/Row';
 import {
-  HiArrowTrendingDown,
-  HiOutlineArrowDown,
-  HiOutlineArrowTrendingDown,
   HiOutlineCurrencyDollar,
   HiOutlineMoon,
   HiOutlineUserGroup,
@@ -13,6 +10,8 @@ import { formatCurrency } from '../../utils/helpers';
 import Button from '../../ui/Button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { differenceInDays } from 'date-fns';
+import Modal from '../../ui/Modal';
+import NewGuestBooking from '../guests/GuestForm';
 
 const StyledCabinItem = styled.li`
   background-color: var(--color-grey-0);
@@ -51,7 +50,6 @@ const IconData = styled.span`
 `;
 
 export const CabinItem = ({ cabin }) => {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { id, name, maxCapacity, regularPrice, image, discount } = cabin;
 
@@ -84,9 +82,18 @@ export const CabinItem = ({ cabin }) => {
           </Row>
         </Row>
         <Row>
-          <Button size='medium' onClick={() => navigate(`/new-booking/${id}`)}>
-            Book now
-          </Button>
+          <Modal>
+            <Modal.Open opens='booking-modal'>
+              <Button size='medium'>Book now</Button>
+            </Modal.Open>
+            <Modal.Window name='booking-modal'>
+              <NewGuestBooking
+                numNights={nights}
+                nightPrice={regularPrice - discount}
+                cabinId={id}
+              />
+            </Modal.Window>
+          </Modal>
         </Row>
       </CabinInfo>
     </StyledCabinItem>
