@@ -17,6 +17,13 @@ const Img = styled.img`
   object-position: center;
   transform: scale(1.5) translateX(-7px);
 `;
+const ImgBig = styled.img`
+  width: 50rem;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.5) translateX(-7px);
+`;
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -65,7 +72,16 @@ export const CabinRow = ({ cabin }) => {
 
   return (
     <Table.Row>
-      <Img src={image} />
+      <div>
+        <Modal>
+          <Modal.Open opens='image'>
+            <Img src={image} />
+          </Modal.Open>
+          <Modal.Window name='image'>
+            <ImgBig src={image} />
+          </Modal.Window>
+        </Modal>
+      </div>
       <Cabin>{name}</Cabin>
       <div>Up to {maxCapacity} guests</div>
       <Price>{formatCurrency(regularPrice)}</Price>
