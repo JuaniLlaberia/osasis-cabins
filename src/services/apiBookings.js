@@ -163,7 +163,7 @@ export const createBooking = async ({ newGuest, newBooking }) => {
   newBooking.guestId = data?.id;
 
   //Creating new booking
-  console.log(newBooking);
+  // console.log(newBooking);
   const { data: bookingData, error: bookingError } = await supabase
     .from('bookings')
     .insert([newBooking])

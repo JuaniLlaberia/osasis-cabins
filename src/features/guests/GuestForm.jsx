@@ -45,7 +45,7 @@ function NewGuestBooking({ onCloseModal, numNights, nightPrice, cabinId }) {
   //Prices
   const breakfastPrice = numNights * numGuests * settings.breakfastPrice;
   const cabinPrice = nightPrice * numNights;
-  const totalPrice = cabinPrice + breakfastPrice;
+  const totalPrice = addBreakfast ? cabinPrice + breakfastPrice : cabinPrice;
 
   const onSubmit = ({ fullName, email, nationality, nationalId }) => {
     createBooking({
@@ -132,6 +132,7 @@ function NewGuestBooking({ onCloseModal, numNights, nightPrice, cabinId }) {
         </Checkbox>
       </Box>
       <FormRow>
+        <p as='h2'>Total Price: {formatCurrency(totalPrice)}</p>
         <Button
           variation='secondary'
           type='reset'

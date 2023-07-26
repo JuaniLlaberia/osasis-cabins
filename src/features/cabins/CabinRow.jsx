@@ -77,7 +77,6 @@ export const CabinRow = ({ cabin }) => {
       <div>
         {/* MODAL */}
         <Modal>
-          {/*  */}
           {/* MENU */}
           <Menus.Menu>
             <Menus.Toggle id={cabinId} />

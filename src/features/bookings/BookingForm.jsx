@@ -10,6 +10,8 @@ import Heading from '../../ui/Heading';
 import SpinnerMini from '../../ui/SpinnerMini';
 import { HiOutlineUserMinus, HiOutlineUserPlus } from 'react-icons/hi2';
 import { styled } from 'styled-components';
+import { useSettings } from '../settings/useSettings';
+import Spinner from '../../ui/Spinner';
 
 const GuestContainer = styled.div`
   padding-top: 0.75rem;
@@ -32,6 +34,7 @@ export const BookingForm = ({ isLoading }) => {
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const { settings, isLoading: isLoadingSettings } = useSettings();
 
   const handleGuests = (e, num) => {
     e.preventDefault();
@@ -57,9 +60,12 @@ export const BookingForm = ({ isLoading }) => {
 
   //Always one day after the 'from date'
   const fromRef = useRef();
+
+  if (isLoadingSettings) return <Spinner />;
+
   const minTo = addDays(
     new Date(fromRef.current?.value ? fromRef.current.value : new Date()),
-    1
+    settings?.minBookingLength
   )
     ?.toISOString()
     .split('T')[0];
